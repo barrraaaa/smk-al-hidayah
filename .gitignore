@@ -1,0 +1,46 @@
+# Laravel
+/vendor/
+/node_modules/
+/.npm/
+/.env
+/.env.production
+/.env.*.local
+/storage/app/public/
+/storage/framework/cache/data/
+/storage/framework/sessions/
+/storage/framework/views/
+/storage/logs/
+public/storage/
+public/hot
+public/build/
+
+# Laravel IDE helper
+_ide_helpers.php
+.phpstorm.meta.php
+
+# Logs
+*.log
+*.error
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Composer
+/composer.phar
+vendor/
+
+# BMad — keep planning outputs tracked
+_bmad-output/
+
+# BMad — ignore custom user config
+_bmad/custom/config.user.toml
+_bmad/custom/*.user.toml
