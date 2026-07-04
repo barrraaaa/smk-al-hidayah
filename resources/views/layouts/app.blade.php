@@ -15,49 +15,45 @@
 <body class="min-h-screen bg-surface text-text-body font-sans antialiased">
 
     {{-- Skip to content --}}
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-white">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-white">
         Lompat ke konten utama
     </a>
 
     {{-- Navbar --}}
     <header id="navbar" class="navbar-transparent fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         <div class="container-page">
-            <div class="flex h-16 items-center justify-between md:h-[72px]">
+            <div class="flex h-[90px] items-center justify-between md:h-[111px]">
                 {{-- Logo --}}
-                <a href="{{ url('/') }}" class="flex items-center gap-2 text-lg font-bold text-white md:text-xl">
-                    <svg class="h-8 w-8" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="32" height="32" rx="8" fill="currentColor"/>
-                        <text x="16" y="22" text-anchor="middle" font-size="18" font-weight="bold" fill="white">S</text>
-                    </svg>
-                    <span class="font-heading">SMK Alhidayah</span>
+                <a href="{{ url('/') }}" class="flex items-center gap-2">
+                    <span class="font-heading text-xl font-bold text-white md:text-2xl">SMK Alhidayah</span>
                 </a>
 
                 {{-- Desktop Nav --}}
-                <nav class="hidden items-center gap-1 md:flex" aria-label="Navigasi utama">
-                    <a href="{{ url('/') }}" class="rounded-lg px-4 py-2 text-sm font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white">Beranda</a>
-                    <a href="{{ url('/profil') }}" class="rounded-lg px-4 py-2 text-sm font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white">Profil</a>
+                <nav class="hidden items-center gap-0 md:flex" aria-label="Navigasi utama">
+                    <a href="{{ url('/') }}" class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10">Beranda</a>
+                    <a href="{{ url('/profil') }}" class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10">Profil</a>
                     <div class="relative group">
-                        <button class="rounded-lg px-4 py-2 text-sm font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white flex items-center gap-1">
+                        <button class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10 flex items-center gap-1">
                             Jurusan
-                            <svg class="h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg class="h-3 w-3 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
-                        <div class="invisible absolute top-full left-0 mt-1 w-56 rounded-xl border border-border bg-white p-2 shadow-lg opacity-0 transition-all group-hover:visible group-hover:opacity-100">
-                            <a href="{{ url('/jurusan/akl') }}" class="block rounded-lg px-4 py-2.5 text-sm text-text-body transition-colors hover:bg-primary/5 hover:text-primary">AKL — Akuntansi</a>
-                            <a href="{{ url('/jurusan/pemasaran') }}" class="block rounded-lg px-4 py-2.5 text-sm text-text-body transition-colors hover:bg-primary/5 hover:text-primary">Pemasaran</a>
-                            <a href="{{ url('/jurusan/mplb') }}" class="block rounded-lg px-4 py-2.5 text-sm text-text-body transition-colors hover:bg-primary/5 hover:text-primary">MPLB — Manajemen Perkantoran</a>
-                            <a href="{{ url('/jurusan/tjkt') }}" class="block rounded-lg px-4 py-2.5 text-sm text-text-body transition-colors hover:bg-primary/5 hover:text-primary">TJKT — Teknik Jaringan</a>
+                        <div class="invisible absolute top-full left-0 mt-1 w-56 rounded-lg border bg-white p-2 shadow-lg opacity-0 transition-all group-hover:visible group-hover:opacity-100">
+                            <a href="{{ url('/jurusan/akl') }}" class="block rounded-md px-4 py-2.5 text-sm text-text-body transition-colors hover:bg-primary/5 hover:text-primary">AKL — Akuntansi</a>
+                            <a href="{{ url('/jurusan/pemasaran') }}" class="block rounded-md px-4 py-2.5 text-sm text-text-body transition-colors hover:bg-primary/5 hover:text-primary">Pemasaran</a>
+                            <a href="{{ url('/jurusan/mplb') }}" class="block rounded-md px-4 py-2.5 text-sm text-text-body transition-colors hover:bg-primary/5 hover:text-primary">MPLB — Manajemen Perkantoran</a>
+                            <a href="{{ url('/jurusan/tjkt') }}" class="block rounded-md px-4 py-2.5 text-sm text-text-body transition-colors hover:bg-primary/5 hover:text-primary">TJKT — Teknik Jaringan</a>
                         </div>
                     </div>
-                    <a href="{{ url('/artikel') }}" class="rounded-lg px-4 py-2 text-sm font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white">Artikel</a>
-                    <a href="{{ url('/galeri') }}" class="rounded-lg px-4 py-2 text-sm font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white">Galeri</a>
-                    <a href="{{ url('/kontak') }}" class="rounded-lg px-4 py-2 text-sm font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white">Kontak</a>
-                    <a href="{{ url('/ppdb') }}" class="btn-accent ml-2 px-5 py-2 text-sm">Daftar PPDB</a>
+                    <a href="{{ url('/artikel') }}" class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10">Artikel</a>
+                    <a href="{{ url('/galeri') }}" class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10">Galeri</a>
+                    <a href="{{ url('/kontak') }}" class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10">Kontak</a>
+                    <a href="{{ url('/ppdb') }}" class="theme-btn-sm ml-4">Daftar PPDB</a>
                 </nav>
 
                 {{-- Mobile hamburger --}}
-                <button id="nav-toggle" class="flex items-center justify-center rounded-lg p-2 text-white md:hidden" aria-label="Toggle navigation" aria-expanded="false">
+                <button id="nav-toggle" class="flex items-center justify-center rounded-md p-2 text-white md:hidden" aria-label="Toggle navigation" aria-expanded="false">
                     <svg id="nav-icon-open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
@@ -71,23 +67,23 @@
         {{-- Mobile Menu --}}
         <div id="nav-mobile" class="hidden border-t border-white/10 bg-primary md:hidden">
             <div class="container-page space-y-1 pb-4 pt-2">
-                <a href="{{ url('/') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Beranda</a>
-                <a href="{{ url('/profil') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Profil</a>
+                <a href="{{ url('/') }}" class="block rounded-md px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Beranda</a>
+                <a href="{{ url('/profil') }}" class="block rounded-md px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Profil</a>
                 <div class="px-4 py-2 text-sm font-medium text-white/70">Jurusan</div>
-                <a href="{{ url('/jurusan/akl') }}" class="block rounded-lg px-8 py-2 text-sm text-white/80 hover:bg-white/10">AKL — Akuntansi</a>
-                <a href="{{ url('/jurusan/pemasaran') }}" class="block rounded-lg px-8 py-2 text-sm text-white/80 hover:bg-white/10">Pemasaran</a>
-                <a href="{{ url('/jurusan/mplb') }}" class="block rounded-lg px-8 py-2 text-sm text-white/80 hover:bg-white/10">MPLB — Manajemen Perkantoran</a>
-                <a href="{{ url('/jurusan/tjkt') }}" class="block rounded-lg px-8 py-2 text-sm text-white/80 hover:bg-white/10">TJKT — Teknik Jaringan</a>
+                <a href="{{ url('/jurusan/akl') }}" class="block rounded-md px-8 py-2 text-sm text-white/80 hover:bg-white/10">AKL — Akuntansi</a>
+                <a href="{{ url('/jurusan/pemasaran') }}" class="block rounded-md px-8 py-2 text-sm text-white/80 hover:bg-white/10">Pemasaran</a>
+                <a href="{{ url('/jurusan/mplb') }}" class="block rounded-md px-8 py-2 text-sm text-white/80 hover:bg-white/10">MPLB — Manajemen Perkantoran</a>
+                <a href="{{ url('/jurusan/tjkt') }}" class="block rounded-md px-8 py-2 text-sm text-white/80 hover:bg-white/10">TJKT — Teknik Jaringan</a>
                 <div class="pt-2">
-                    <a href="{{ url('/artikel') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Artikel</a>
-                    <a href="{{ url('/galeri') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Galeri</a>
-                    <a href="{{ url('/prestasi') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Prestasi</a>
-                    <a href="{{ url('/ekstrakurikuler') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Ekstrakurikuler</a>
-                    <a href="{{ url('/pengumuman-kelulusan') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Cek Kelulusan</a>
-                    <a href="{{ url('/kontak') }}" class="block rounded-lg px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Kontak</a>
+                    <a href="{{ url('/artikel') }}" class="block rounded-md px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Artikel</a>
+                    <a href="{{ url('/galeri') }}" class="block rounded-md px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Galeri</a>
+                    <a href="{{ url('/prestasi') }}" class="block rounded-md px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Prestasi</a>
+                    <a href="{{ url('/ekstrakurikuler') }}" class="block rounded-md px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Ekstrakurikuler</a>
+                    <a href="{{ url('/pengumuman-kelulusan') }}" class="block rounded-md px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Cek Kelulusan</a>
+                    <a href="{{ url('/kontak') }}" class="block rounded-md px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Kontak</a>
                 </div>
                 <div class="pt-4 px-4">
-                    <a href="{{ url('/ppdb') }}" class="btn-accent w-full text-center">Daftar PPDB</a>
+                    <a href="{{ url('/ppdb') }}" class="theme-btn w-full justify-center text-center">Daftar PPDB</a>
                 </div>
             </div>
         </div>
@@ -99,40 +95,45 @@
     </main>
 
     {{-- Footer --}}
-    <footer class="bg-primary-dark text-white">
+    <footer class="bg-primary text-white">
         <div class="container-page py-16">
-            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
                 {{-- Logo & Description --}}
-                <div class="space-y-4">
-                    <div class="flex items-center gap-2 text-lg font-bold">
-                        <svg class="h-8 w-8" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="32" height="32" rx="8" fill="white"/>
-                            <text x="16" y="22" text-anchor="middle" font-size="18" font-weight="bold" fill="#0D7C3F">S</text>
-                        </svg>
-                        <span class="font-heading">SMK Alhidayah</span>
-                    </div>
+                <div class="space-y-5">
+                    <h3 class="font-heading text-2xl font-semibold text-white">SMK Alhidayah</h3>
                     <p class="text-sm leading-relaxed text-white/70">
                         Sekolah Menengah Kejuruan Islam modern dengan 4 jurusan unggulan. Mencetak generasi berakhlak mulia, kompeten, dan siap kerja.
                     </p>
+                    <div class="flex gap-3">
+                        <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-accent hover:text-primary">
+                            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                        </a>
+                        <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-accent hover:text-primary">
+                            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                        </a>
+                        <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-accent hover:text-primary">
+                            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                        </a>
+                    </div>
                 </div>
 
                 {{-- Navigasi --}}
                 <div>
-                    <h3 class="mb-4 font-heading font-semibold text-white">Navigasi</h3>
-                    <ul class="space-y-2 text-sm text-white/70">
+                    <h3 class="mb-6 font-heading text-2xl font-semibold text-white">Navigasi</h3>
+                    <ul class="space-y-3 text-sm text-white/70">
                         <li><a href="{{ url('/') }}" class="transition-colors hover:text-white">Beranda</a></li>
                         <li><a href="{{ url('/profil') }}" class="transition-colors hover:text-white">Profil Sekolah</a></li>
-                        <li><a href="{{ url('/jurusan/akl') }}" class="transition-colors hover:text-white">Jurusan</a></li>
                         <li><a href="{{ url('/ppdb') }}" class="transition-colors hover:text-white">PPDB</a></li>
                         <li><a href="{{ url('/artikel') }}" class="transition-colors hover:text-white">Artikel</a></li>
                         <li><a href="{{ url('/galeri') }}" class="transition-colors hover:text-white">Galeri</a></li>
+                        <li><a href="{{ url('/prestasi') }}" class="transition-colors hover:text-white">Prestasi</a></li>
                     </ul>
                 </div>
 
                 {{-- Jurusan --}}
                 <div>
-                    <h3 class="mb-4 font-heading font-semibold text-white">Jurusan</h3>
-                    <ul class="space-y-2 text-sm text-white/70">
+                    <h3 class="mb-6 font-heading text-2xl font-semibold text-white">Jurusan</h3>
+                    <ul class="space-y-3 text-sm text-white/70">
                         <li><a href="{{ url('/jurusan/akl') }}" class="transition-colors hover:text-white">AKL — Akuntansi</a></li>
                         <li><a href="{{ url('/jurusan/pemasaran') }}" class="transition-colors hover:text-white">Pemasaran</a></li>
                         <li><a href="{{ url('/jurusan/mplb') }}" class="transition-colors hover:text-white">MPLB — Manajemen Perkantoran</a></li>
@@ -142,22 +143,22 @@
 
                 {{-- Kontak --}}
                 <div>
-                    <h3 class="mb-4 font-heading font-semibold text-white">Kontak</h3>
-                    <ul class="space-y-3 text-sm text-white/70">
-                        <li class="flex items-start gap-2">
+                    <h3 class="mb-6 font-heading text-2xl font-semibold text-white">Kontak</h3>
+                    <ul class="space-y-4 text-sm text-white/70">
+                        <li class="flex items-start gap-3">
                             <svg class="mt-0.5 h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                             </svg>
-                            <span>Jl. Contoh No. 123, Jakarta</span>
+                            <span>Jl. Raya Contoh No. 123, Jakarta Selatan</span>
                         </li>
-                        <li class="flex items-center gap-2">
+                        <li class="flex items-center gap-3">
                             <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                             </svg>
                             <span>(021) 1234-5678</span>
                         </li>
-                        <li class="flex items-center gap-2">
+                        <li class="flex items-center gap-3">
                             <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                             </svg>
@@ -169,8 +170,8 @@
         </div>
 
         {{-- Copyright --}}
-        <div class="border-t border-white/10">
-            <div class="container-page flex flex-col items-center justify-between gap-2 py-6 text-sm text-white/60 md:flex-row">
+        <div class="bg-primary-dark">
+            <div class="container-page flex flex-col items-center justify-between gap-2 py-5 text-sm text-white/60 md:flex-row">
                 <p>&copy; {{ date('Y') }} SMK Alhidayah. All rights reserved.</p>
                 <p>Dibangun dengan <span class="text-accent">❤</span> untuk pendidikan Indonesia</p>
             </div>
@@ -178,7 +179,7 @@
     </footer>
 
     {{-- Scroll to top button --}}
-    <button id="scroll-top" class="fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-lg opacity-0 transition-all duration-300 hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+    <button id="scroll-top" class="pointer-events-none fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-md bg-primary text-white shadow-lg opacity-0 transition-all duration-300 hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             aria-label="Kembali ke atas"
             onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -191,12 +192,11 @@
     <script>
         // Navbar scroll effect
         const navbar = document.getElementById('navbar');
-        let lastScroll = 0;
 
         window.addEventListener('scroll', () => {
             const scrollY = window.scrollY;
 
-            if (scrollY > 80) {
+            if (scrollY > 100) {
                 navbar.classList.remove('navbar-transparent');
                 navbar.classList.add('navbar-scrolled');
             } else {
@@ -213,8 +213,6 @@
                 scrollTop.classList.remove('opacity-100');
                 scrollTop.classList.add('opacity-0', 'pointer-events-none');
             }
-
-            lastScroll = scrollY;
         });
 
         // Mobile menu toggle
@@ -224,11 +222,11 @@
         const navIconClose = document.getElementById('nav-icon-close');
 
         navToggle.addEventListener('click', () => {
-            const isOpen = navMobile.classList.contains('hidden');
-            navMobile.classList.toggle('hidden', !isOpen);
-            navIconOpen.classList.toggle('hidden', isOpen);
-            navIconClose.classList.toggle('hidden', !isOpen);
-            navToggle.setAttribute('aria-expanded', isOpen);
+            const isOpen = !navMobile.classList.contains('hidden');
+            navMobile.classList.toggle('hidden', isOpen);
+            navIconOpen.classList.toggle('hidden', !isOpen);
+            navIconClose.classList.toggle('hidden', isOpen);
+            navToggle.setAttribute('aria-expanded', !isOpen);
         });
 
         // Close mobile menu on link click

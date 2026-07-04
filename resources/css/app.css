@@ -10,31 +10,30 @@
     --font-heading: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
         'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-    /* Brand colors */
-    --color-primary: #0D7C3F;
-    --color-primary-light: #2EA863;
-    --color-primary-dark: #09522B;
-    --color-accent: #F5A623;
-    --color-accent-light: #FFD166;
+    /* Template Alquran Colors */
+    --color-primary: #254636;
+    --color-primary-light: #2b9155;
+    --color-primary-medium: #50bc84;
+    --color-primary-dark: #1a3328;
+    --color-accent: #F3B815;
+    --color-accent-light: #F2CD64;
+    --color-accent-dark: #d49f0e;
 
     /* Neutral */
-    --color-surface: #FAFAFA;
-    --color-surface-alt: #F5F5F5;
-    --color-border: #E5E5E5;
-    --color-text-body: #404040;
-    --color-text-heading: #171717;
+    --color-surface: #ffffff;
+    --color-surface-alt: #f7f7f7;
+    --color-border: #e5e5e5;
+    --color-text-body: #555555;
+    --color-text-heading: #222222;
+    --color-text-muted: #888888;
 
     /* Status */
-    --color-success: #0D7C3F;
-    --color-warning: #F5A623;
-    --color-danger: #DC2626;
+    --color-success: #254636;
+    --color-warning: #F3B815;
+    --color-danger: #dc2626;
 }
 
 @layer base {
-    html {
-        scroll-behavior: smooth;
-    }
-
     body {
         @apply bg-surface text-text-body font-sans antialiased;
     }
@@ -42,86 +41,149 @@
     h1, h2, h3, h4, h5, h6 {
         @apply font-heading text-text-heading;
     }
-}
 
-@layer components {
-    .container-page {
-        @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
-    }
-
-    .section-padding {
-        @apply py-16 md:py-24;
-    }
-
-    .btn-primary {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3
-               font-heading font-semibold text-white transition-all duration-200
-               hover:bg-primary-light hover:shadow-lg active:scale-[0.97]
-               focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
-    }
-
-    .btn-accent {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3
-               font-heading font-semibold text-text-heading transition-all duration-200
-               hover:bg-accent-light hover:shadow-lg active:scale-[0.97]
-               focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2;
-    }
-
-    .btn-outline {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white px-6 py-3
-               font-heading font-semibold text-white transition-all duration-200
-               hover:bg-white hover:text-primary active:scale-[0.97]
-               focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2;
-    }
-
-    .card {
-        @apply rounded-xl border border-border bg-white p-6 shadow-sm transition-all duration-200;
-    }
-
-    .card-hover {
-        @apply card hover:-translate-y-1 hover:shadow-lg;
-    }
-
-    .badge {
-        @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold;
-    }
-
-    .badge-accent {
-        @apply badge bg-accent/15 text-amber-800;
-    }
-
-    .badge-green {
-        @apply badge bg-primary/15 text-primary-dark;
-    }
-
-    .section-title {
-        @apply mb-12 text-center;
-    }
-
-    .section-title h2 {
-        @apply font-heading text-3xl font-bold text-text-heading md:text-4xl;
-    }
-
-    .section-title p {
-        @apply mt-3 text-lg text-text-body/80;
-    }
-
-    .input-field {
-        @apply w-full rounded-lg border border-border bg-white px-4 py-3 text-text-body
-               transition-all duration-200 placeholder:text-text-body/40
-               focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20;
-    }
-
-    .input-error {
-        @apply input-field border-danger focus:border-danger focus:ring-danger/20;
+    * {
+        @apply border-border;
     }
 }
 
-/* Navbar scroll effect */
-.navbar-scrolled {
-    @apply bg-primary shadow-lg;
+@utility container-page {
+    @apply mx-auto w-full max-w-[1390px] px-4 sm:px-6 lg:px-8;
 }
 
-.navbar-transparent {
-    @apply bg-transparent;
+@utility container-sm {
+    @apply mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8;
+}
+
+@utility section-padding {
+    @apply py-20 md:py-24;
+}
+
+@utility btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-md bg-primary px-7 py-3
+           font-heading font-semibold text-white transition-all duration-300
+           hover:bg-primary-light hover:shadow-lg active:scale-[0.97]
+           focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+}
+
+@utility btn-accent {
+    @apply inline-flex items-center justify-center gap-2 rounded-md bg-accent px-7 py-3
+           font-heading font-semibold text-text-heading transition-all duration-300
+           hover:bg-accent-light hover:shadow-lg active:scale-[0.97]
+           focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2;
+}
+
+@utility btn-outline-white {
+    @apply inline-flex items-center justify-center gap-2 rounded-md border-2 border-white px-7 py-3
+           font-heading font-semibold text-white transition-all duration-300
+           hover:bg-white hover:text-primary active:scale-[0.97]
+           focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2;
+}
+
+@utility card {
+    @apply rounded-lg border border-border bg-white p-6 shadow-sm transition-all duration-300;
+}
+
+@utility card-hover {
+    @apply rounded-lg border border-border bg-white p-6 shadow-sm transition-all duration-300
+           hover:-translate-y-1 hover:shadow-md;
+}
+
+@utility badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold;
+}
+
+@utility badge-accent {
+    @apply badge bg-accent/15 text-amber-800;
+}
+
+@utility badge-green {
+    @apply badge bg-primary/10 text-primary;
+}
+
+@utility section-title {
+    @apply mb-14 text-center;
+}
+
+@utility section-title-tag {
+    @apply inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary;
+}
+
+@utility section-title-heading {
+    @apply mt-3 font-heading text-3xl font-bold text-text-heading md:text-4xl;
+}
+
+@utility section-title-text {
+    @apply mt-4 mx-auto max-w-2xl text-text-body/70;
+}
+
+@utility input-field {
+    @apply w-full rounded-md border border-border bg-white px-4 py-3 text-text-body
+           transition-all duration-200 placeholder:text-text-body/40
+           focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20;
+}
+
+/* Theme button with arrow */
+@utility theme-btn {
+    @apply relative inline-flex items-center gap-2 overflow-hidden rounded-md bg-primary px-7 py-3
+           font-heading font-semibold text-white transition-all duration-500
+           hover:bg-accent hover:text-text-heading;
+}
+
+@utility theme-btn-sm {
+    @apply theme-btn px-5 py-2 text-sm;
+}
+
+/* Gradient CTA section style */
+@utility cta-gradient {
+    background: linear-gradient(to right, #50bc84 0%, #F3B815 100%);
+}
+
+/* Navbar scroll states */
+@utility navbar-scrolled {
+    background-color: var(--color-primary);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+@utility navbar-transparent {
+    background-color: transparent;
+}
+
+/* Icon bounce animation */
+@keyframes icon-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@utility animate-icon-bounce {
+    animation: icon-bounce 0.8s ease-out;
+}
+
+/* Shine effect for images */
+@keyframes shine {
+    100% {
+        left: 125%;
+    }
+}
+
+/* Course card list style */
+.course-meta-list {
+    @apply flex justify-between border-y border-border py-3 my-4;
+}
+.course-meta-list li {
+    @apply flex flex-col items-center gap-0.5 text-center text-sm font-semibold text-text-heading;
+}
+.course-meta-list li span {
+    @apply text-xs font-normal text-primary;
+}
+
+/* Overlap section */
+.overlap-section {
+    margin-top: -75px;
+    position: relative;
+    z-index: 2;
 }
