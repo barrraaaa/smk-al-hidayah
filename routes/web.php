@@ -1,65 +1,65 @@
 <?php
 
+use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\EkstrakurikulerController;
+use App\Http\Controllers\GaleriController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JurusanController;
+use App\Http\Controllers\KontakController;
+use App\Http\Controllers\PrestasiController;
+use App\Http\Controllers\ProfilController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('beranda');
-})->name('beranda');
+Route::get('/', [HomeController::class, 'index'])->name('beranda');
 
 Route::prefix('profil')->group(function () {
-    Route::get('/', function () {
-        return view('profil.index');
-    })->name('profil');
-    Route::get('/sejarah', function () {
-        return view('profil.sejarah');
-    })->name('profil.sejarah');
-    Route::get('/struktur-organisasi', function () {
-        return view('profil.struktur');
-    })->name('profil.struktur');
-    Route::get('/guru', function () {
-        return view('profil.guru');
-    })->name('profil.guru');
+    Route::get('/', [ProfilController::class, 'index'])->name('profil');
+    Route::get('/sejarah', [ProfilController::class, 'sejarah'])->name('profil.sejarah');
+    Route::get('/struktur-organisasi', [ProfilController::class, 'struktur'])->name('profil.struktur');
+    Route::get('/guru', [ProfilController::class, 'guru'])->name('profil.guru');
 });
 
-Route::prefix('jurusan')->group(function () {
-    Route::get('/akl', function () {
-        return view('jurusan.akl');
-    })->name('jurusan.akl');
-    Route::get('/pemasaran', function () {
-        return view('jurusan.pemasaran');
-    })->name('jurusan.pemasaran');
-    Route::get('/mplb', function () {
-        return view('jurusan.mplb');
-    })->name('jurusan.mplb');
-    Route::get('/tjkt', function () {
-        return view('jurusan.tjkt');
-    })->name('jurusan.tjkt');
-});
+Route::get('/jurusan/{slug}', [JurusanController::class, 'show'])->name('jurusan.show');
 
-Route::view('/prestasi', 'prestasi')->name('prestasi');
-Route::view('/ekstrakurikuler', 'ekstrakurikuler')->name('ekstrakurikuler');
-Route::view('/galeri', 'galeri')->name('galeri');
+Route::get('/prestasi', [PrestasiController::class, 'index'])->name('prestasi');
+Route::get('/ekstrakurikuler', [EkstrakurikulerController::class, 'index'])->name('ekstrakurikuler');
+Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri');
 
 Route::prefix('ppdb')->group(function () {
-    Route::get('/', function () {
-        return view('ppdb.index');
-    })->name('ppdb');
-    Route::get('/daftar', function () {
-        return view('ppdb.daftar');
-    })->name('ppdb.daftar');
-    Route::get('/status', function () {
-        return view('ppdb.status');
-    })->name('ppdb.status');
+    Route::get('/', [\App\Http\Controllers\PPDBController::class, 'index'])->name('ppdb');
+    Route::get('/daftar', [\App\Http\Controllers\PPDBController::class, 'daftar'])->name('ppdb.daftar');
+    Route::post('/daftar', [\App\Http\Controllers\PPDBController::class, 'store'])->name('ppdb.store');
+    Route::get('/status', [\App\Http\Controllers\PPDBController::class, 'status'])->name('ppdb.status');
+    Route::post('/status', [\App\Http\Controllers\PPDBController::class, 'status'])->name('ppdb.status.cari');
+    Route::post('/bukti-bayar', [\App\Http\Controllers\PPDBController::class, 'uploadBukti'])->name('ppdb.bukti');
+    Route::get('/cetak/{nomor}', [\App\Http\Controllers\PPDBController::class, 'cetak'])->name('ppdb.cetak');
 });
 
 Route::prefix('artikel')->group(function () {
-    Route::get('/', function () {
-        return view('artikel.index');
-    })->name('artikel');
-    Route::get('/{slug}', function ($slug) {
-        return view('artikel.show', ['slug' => $slug]);
-    })->name('artikel.show');
+    Route::get('/', [ArtikelController::class, 'index'])->name('artikel');
+    Route::get('/{slug}', [ArtikelController::class, 'show'])->name('artikel.show');
 });
 
-Route::view('/pengumuman-kelulusan', 'kelulusan')->name('kelulusan');
-Route::view('/kontak', 'kontak')->name('kontak');
+Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
+Route::post('/kontak', [KontakController::class, 'store'])->name('kontak.store');
+
+// SEO
+Route::get('/sitemap.xml', function () {
+    return response()->view('sitemap')->header('Content-Type', 'text/xml');
+})->name('sitemap');
+
+Route::get('/robots.txt', function () {
+    $disallowAdmin = url('/admin');
+    $sitemapUrl = url('/sitemap.xml');
+    $content = "User-agent: *\nAllow: /\nDisallow: {$disallowAdmin}/\nDisallow: /storage/\nSitemap: {$sitemapUrl}\n";
+    return response($content, 200)->header('Content-Type', 'text/plain');
+})->name('robots');
+
+Route::get('/pengumuman-kelulusan', [\App\Http\Controllers\KelulusanController::class, 'index'])->name('kelulusan');
+Route::post('/pengumuman-kelulusan', [\App\Http\Controllers\KelulusanController::class, 'cari'])->name('kelulusan.cari');
+
+// Admin Export Routes
+Route::middleware(['auth'])->prefix('admin/export')->group(function () {
+    Route::get('/ppdb/csv', [\App\Http\Controllers\Admin\ExportPendaftarController::class, 'csv'])->name('admin.export.ppdb.csv');
+    Route::get('/ppdb/count', [\App\Http\Controllers\Admin\ExportPendaftarController::class, 'count'])->name('admin.export.ppdb.count');
+});

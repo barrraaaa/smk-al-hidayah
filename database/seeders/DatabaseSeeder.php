@@ -12,13 +12,18 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        $this->call([
-            JurusanSeeder::class,
-        ]);
-
+        // Create admin user FIRST
         User::factory()->create([
             'name' => 'Admin SMK Alhidayah',
             'email' => 'admin@smkalhidayah.sch.id',
+        ]);
+
+        // Then run seeders that depend on it
+        $this->call([
+            JurusanSeeder::class,
+            SchoolSettingSeeder::class,
+            KelulusanSeeder::class,
+            ShieldSeeder::class,
         ]);
     }
 }
