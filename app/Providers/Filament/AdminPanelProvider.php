@@ -41,6 +41,12 @@ class AdminPanelProvider extends PanelProvider
             ->font('Inter')
             ->favicon(asset('favicon.ico'))
             ->sidebarCollapsibleOnDesktop()
+            ->navigationGroups([
+                'PPDB',
+                'Master Data',
+                'Konten',
+                'Pengaturan',
+            ])
             ->databaseNotifications()
             ->databaseNotificationsPolling('30s')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

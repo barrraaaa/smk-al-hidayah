@@ -43,7 +43,7 @@ class PendaftarResource extends Resource
     {
         return [
             \App\Filament\Resources\Pendaftars\RelationManagers\DokumenPpdbRelationManager::class,
-            \App\Filament\Resources\Pendaftars\RelationManagers\BuktiBayarRelationManager::class,
+            \App\Filament\Resources\Pendaftars\RelationManagers\BuktiBayarsRelationManager::class,
         ];
     }
 

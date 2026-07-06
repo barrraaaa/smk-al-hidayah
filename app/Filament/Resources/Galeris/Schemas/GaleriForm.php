@@ -27,6 +27,7 @@ class GaleriForm
                     ->label('Foto')
                     ->image()
                     ->imageEditor()
+                    ->disk('public')
                     ->directory('galeri')
                     ->required()
                     ->columnSpanFull(),

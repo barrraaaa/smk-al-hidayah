@@ -14,6 +14,9 @@ class Jurusan extends Model
         'deskripsi',
         'prospek_kerja',
         'ikon',
+        'hero_thumbnail',
+        'gambar_1',
+        'gambar_2',
         'kepala_jurusan_id',
         'aktif',
     ];

@@ -20,6 +20,7 @@ class EkstrakurikulerForm
                 FileUpload::make('foto')
                     ->image()
                     ->imageEditor()
+                    ->disk('public')
                     ->directory('ekstrakurikuler')
                     ->columnSpanFull(),
                 Textarea::make('deskripsi')

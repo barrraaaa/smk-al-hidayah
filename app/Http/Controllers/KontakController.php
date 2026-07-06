@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PesanKontak;
 use App\Models\User;
+use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -38,7 +39,7 @@ class KontakController extends Controller
                     ->body(Str::limit(strip_tags($validated['pesan']), 120))
                     ->icon('heroicon-o-envelope')
                     ->actions([
-                        \Filament\Notifications\Actions\Action::make('lihat')
+                        Action::make('lihat')
                             ->label('Lihat Pesan')
                             ->url('/admin/pesan-kontaks/' . $pesan->id . '/edit'),
                     ])

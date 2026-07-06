@@ -2,11 +2,16 @@
 
 @section('title', 'Galeri — SMK Alhidayah')
 
+@php $settings = \App\Models\SchoolSetting::getSettings(); @endphp
+
 @section('content')
 {{-- Hero --}}
 <section class="bg-primary-dark relative overflow-hidden pt-32">
-    <div class="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/90 to-primary-dark/95"></div>
-    <div class="container-page relative py-20 text-center">
+    @if(!empty($settings->hero_image))
+    <img src="{{ Storage::url($settings->hero_image) }}" alt="" class="absolute inset-0 h-full w-full object-cover">
+    @endif
+    <div class="absolute inset-0 bg-gradient-to-r {{ !empty($settings->hero_image) ? 'from-primary/65 via-primary/55 to-primary-dark/65' : 'from-primary/95 via-primary/90 to-primary-dark/95' }}"></div>
+    <div class="container-page relative py-16 md:py-20 text-center">
         <div class="section-title-tag justify-center mb-4">
             <span class="text-accent">Galeri</span>
         </div>
@@ -33,7 +38,7 @@
             @foreach($galeris as $g)
             <div class="galeri-item mb-4 break-inside-avoid" data-kategori="{{ $g->kategori }}">
                 <a href="{{ asset('storage/' . $g->file_path) }}" class="group relative block overflow-hidden rounded-lg" data-lightbox="galeri" data-title="{{ $g->judul }}">
-                    <img src="{{ asset('storage/' . $g->file_path) }}" alt="{{ $g->judul }}" class="w-full object-cover transition-all duration-500 group-hover:scale-105" loading="lazy" style="min-height: 200px;">
+                    <img src="{{ asset('storage/' . $g->file_path) }}" alt="{{ $g->judul }}" class="w-full object-cover transition-all duration-500 group-hover:scale-105 min-h-[200px]" loading="lazy">
                     <div class="absolute inset-0 flex items-end bg-gradient-to-t from-primary/80 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                         <div class="p-4">
                             <h3 class="font-heading font-semibold text-white">{{ $g->judul }}</h3>

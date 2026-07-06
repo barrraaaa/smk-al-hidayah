@@ -7,8 +7,11 @@
 @section('content')
 {{-- Hero --}}
 <section class="bg-primary-dark relative overflow-hidden pt-32">
-    <div class="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/90 to-primary-dark/95"></div>
-    <div class="container-page relative py-20 text-center">
+    @if(!empty($settings->hero_image))
+    <img src="{{ Storage::url($settings->hero_image) }}" alt="" class="absolute inset-0 h-full w-full object-cover">
+    @endif
+    <div class="absolute inset-0 bg-gradient-to-r {{ !empty($settings->hero_image) ? 'from-primary/65 via-primary/55 to-primary-dark/65' : 'from-primary/95 via-primary/90 to-primary-dark/95' }}"></div>
+    <div class="container-page relative py-16 md:py-20 text-center">
         <div class="section-title-tag justify-center mb-4">
             <span class="text-accent">Kontak</span>
         </div>
@@ -156,13 +159,13 @@
                 <iframe
                     src="{{ $settings->maps_embed_url }}"
                     width="100%"
-                    height="400"
+                    height="300"
                     style="border:0; display: block;"
                     allowfullscreen=""
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"
                     title="Lokasi {{ $settings->school_name }}"
-                    class="hover:opacity-95 transition-opacity">
+                    class="hover:opacity-95 transition-opacity md:h-[400px]">
                 </iframe>
             </div>
         </div>

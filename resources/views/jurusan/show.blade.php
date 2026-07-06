@@ -5,8 +5,11 @@
 
 @section('content')
 {{-- Hero --}}
-<section class="bg-primary-dark relative overflow-hidden pt-32">
-    <div class="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/90 to-primary-dark/95"></div>
+<section class="relative overflow-hidden pt-32">
+    @if($jurusan->hero_thumbnail)
+    <img src="{{ Storage::url($jurusan->hero_thumbnail) }}" alt="{{ $jurusan->nama }}" class="absolute inset-0 h-full w-full object-cover">
+    @endif
+    <div class="absolute inset-0 bg-gradient-to-r {{ $jurusan->hero_thumbnail ? 'from-primary/80 via-primary/70 to-primary-dark/80' : 'from-primary/95 via-primary/90 to-primary-dark/95' }}"></div>
     <div class="container-page relative py-20">
         {{-- Breadcrumb --}}
         <nav class="mb-6 flex items-center gap-2 text-sm text-white/60">
@@ -26,9 +29,6 @@
                 <span class="text-accent">Jurusan</span>
             </div>
             <h1 class="font-heading text-4xl font-bold text-white md:text-5xl">{{ $jurusan->nama }}</h1>
-            @if($jurusan->deskripsi)
-            <p class="mx-auto mt-4 max-w-2xl text-white/75">{{ $jurusan->deskripsi }}</p>
-            @endif
         </div>
     </div>
 </section>
@@ -41,6 +41,22 @@
             <section class="card">
                 <h2 class="font-heading text-2xl font-bold text-text-heading mb-4">Profil {{ $jurusan->nama }}</h2>
                 <p class="leading-relaxed text-text-body/80">{{ $jurusan->deskripsi }}</p>
+
+                {{-- Galeri Foto Jurusan --}}
+                @if($jurusan->gambar_1 || $jurusan->gambar_2)
+                <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                    @if($jurusan->gambar_1)
+                    <div class="overflow-hidden rounded-lg shadow-md">
+                        <img src="{{ Storage::url($jurusan->gambar_1) }}" alt="Kegiatan {{ $jurusan->nama }}" class="h-56 w-full object-cover transition-all duration-500 hover:scale-105">
+                    </div>
+                    @endif
+                    @if($jurusan->gambar_2)
+                    <div class="overflow-hidden rounded-lg shadow-md">
+                        <img src="{{ Storage::url($jurusan->gambar_2) }}" alt="Kegiatan {{ $jurusan->nama }}" class="h-56 w-full object-cover transition-all duration-500 hover:scale-105">
+                    </div>
+                    @endif
+                </div>
+                @endif
             </section>
 
             {{-- Kepala Jurusan --}}

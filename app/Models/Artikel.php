@@ -16,6 +16,8 @@ class Artikel extends Model
         'tags',
         'status',
         'published_at',
+        'penulis',
+        'penulis_avatar',
     ];
 
     protected function casts(): array

@@ -29,6 +29,7 @@ class PrestasiForm
                 FileUpload::make('foto')
                     ->image()
                     ->imageEditor()
+                    ->disk('public')
                     ->directory('prestasi')
                     ->columnSpanFull(),
                 Textarea::make('deskripsi')

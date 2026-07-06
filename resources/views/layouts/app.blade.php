@@ -5,36 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    @php $settings = \App\Models\SchoolSetting::getSettings(); @endphp
+    @php
+        $settings = \App\Models\SchoolSetting::getSettings();
+        $jurusans = \App\Models\Jurusan::where('aktif', true)->get();
+    @endphp
 
     <title>@yield('title', $settings->school_name)</title>
     <meta name="description" content="@yield('meta_description', $settings->description ?: 'SMK Alhidayah Jakarta — Sekolah Menengah Kejuruan unggulan di Jakarta')">
 
     {{-- SEO Meta (OG, Twitter, Canonical) --}}
-    @php
-        $seoTitle = $__env->yieldContent('title', $settings->school_name);
-        $seoDescription = $__env->yieldContent('meta_description', $settings->description ?: 'SMK Alhidayah Jakarta — Sekolah Menengah Kejuruan unggulan di Jakarta');
-        $seoImage = $__env->yieldContent('og_image', asset('og-image.jpg'));
-        $seoType = $__env->yieldContent('og_type', 'website');
-    @endphp
-    @include('partials.seo-meta', [
-        'title' => $seoTitle,
-        'description' => $seoDescription,
-        'url' => url()->current(),
-        'image' => $seoImage,
-        'type' => $seoType,
-    ])
+    <link rel="canonical" href="{{ url()->current() }}">
+    <meta property="og:title" content="{{ $__env->yieldContent('title', $settings->school_name) }}">
+    <meta property="og:description" content="{{ $__env->yieldContent('meta_description', $settings->description ?: 'SMK Alhidayah Jakarta — Sekolah Menengah Kejuruan unggulan di Jakarta') }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ $__env->yieldContent('og_image', asset('og-image.jpg')) }}">
+    <meta property="og:type" content="{{ $__env->yieldContent('og_type', 'website') }}">
+    <meta property="og:site_name" content="{{ $settings->school_name }}">
+    <meta property="og:locale" content="id_ID">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="robots" content="index, follow">
 
     {{-- JSON-LD Structured Data --}}
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
-        "@type": "School",
+        "@@context": "https://schema.org",
+        "@@type": "School",
         "name": "{{ $settings->school_name }}",
         "description": "{{ $settings->description }}",
         "url": "{{ url('/') }}",
         "address": {
-            "@type": "PostalAddress",
+            "@@type": "PostalAddress",
             "streetAddress": "{{ $settings->address }}",
             "addressCountry": "ID"
         },
@@ -42,7 +42,7 @@
         @if($settings->email)"email": "{{ $settings->email }}",@endif
         "foundingDate": "2010",
         "parentOrganization": {
-            "@type": "Organization",
+            "@@type": "Organization",
             "name": "Yayasan Alhidayah"
         }
     }
@@ -55,6 +55,7 @@
     @fonts
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('head')
+    @stack('styles')
 </head>
 <body class="min-h-screen bg-surface text-text-body font-sans antialiased">
 
@@ -68,14 +69,34 @@
         <div class="container-page">
             <div class="flex h-[90px] items-center justify-between md:h-[111px]">
                 {{-- Logo --}}
-                <a href="{{ url('/') }}" class="flex items-center gap-2">
+                <a href="{{ url('/') }}" class="flex items-center gap-3">
+                    @if($settings->logo_url)
+                        <img src="{{ $settings->logo_url }}" alt="{{ $settings->school_name }}" class="h-10 w-auto md:h-12">
+                    @endif
                     <span class="font-heading text-xl font-bold text-white md:text-2xl">{{ $settings->school_name }}</span>
                 </a>
 
                 {{-- Desktop Nav --}}
                 <nav class="hidden items-center gap-0 md:flex" aria-label="Navigasi utama">
-                    <a href="{{ url('/') }}" class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10">Beranda</a>
-                    <a href="{{ url('/profil') }}" class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10">Profil</a>
+                    <a href="{{ url('/') }}" class="nav-link rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10">Beranda</a>
+
+                    {{-- Profil dropdown --}}
+                    <div class="relative group">
+                        <button class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10 flex items-center gap-1">
+                            Profil
+                            <svg class="h-3 w-3 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div class="nav-dropdown absolute top-full left-0 mt-1 w-64 rounded-lg border border-gray-100 bg-white p-2 shadow-lg">
+                            <div class="nav-dropdown-item"><a href="{{ url('/profil') }}" class="nav-dropdown-link rounded-md px-4 py-2.5 text-sm text-text-body hover:text-primary">Sekilas Profil</a></div>
+                            <div class="nav-dropdown-item"><a href="{{ url('/profil/sejarah') }}" class="nav-dropdown-link rounded-md px-4 py-2.5 text-sm text-text-body hover:text-primary">Sejarah &amp; Visi Misi</a></div>
+                            <div class="nav-dropdown-item"><a href="{{ url('/profil/struktur-organisasi') }}" class="nav-dropdown-link rounded-md px-4 py-2.5 text-sm text-text-body hover:text-primary">Struktur Organisasi</a></div>
+                            <div class="nav-dropdown-item"><a href="{{ url('/profil/guru') }}" class="nav-dropdown-link rounded-md px-4 py-2.5 text-sm text-text-body hover:text-primary">Guru &amp; Tenaga Pengajar</a></div>
+                        </div>
+                    </div>
+
+                    {{-- Jurusan dropdown (dynamic from DB) --}}
                     <div class="relative group">
                         <button class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10 flex items-center gap-1">
                             Jurusan
@@ -83,18 +104,64 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
-                        <div class="invisible absolute top-full left-0 mt-1 w-56 rounded-lg border bg-white p-2 shadow-lg opacity-0 transition-all group-hover:visible group-hover:opacity-100">
-                            <a href="{{ url('/jurusan/akl') }}" class="block rounded-md px-4 py-2.5 text-sm text-text-body transition-colors hover:bg-primary/5 hover:text-primary">AKL — Akuntansi</a>
-                            <a href="{{ url('/jurusan/pemasaran') }}" class="block rounded-md px-4 py-2.5 text-sm text-text-body transition-colors hover:bg-primary/5 hover:text-primary">Pemasaran</a>
-                            <a href="{{ url('/jurusan/mplb') }}" class="block rounded-md px-4 py-2.5 text-sm text-text-body transition-colors hover:bg-primary/5 hover:text-primary">MPLB — Manajemen Perkantoran</a>
-                            <a href="{{ url('/jurusan/tjkt') }}" class="block rounded-md px-4 py-2.5 text-sm text-text-body transition-colors hover:bg-primary/5 hover:text-primary">TJKT — Teknik Jaringan</a>
+                        <div class="nav-dropdown absolute top-full left-0 mt-1 w-64 rounded-lg border border-gray-100 bg-white p-2 shadow-lg">
+                            @foreach($jurusans as $j)
+                            <div class="nav-dropdown-item"><a href="{{ url('/jurusan/' . $j->slug) }}" class="nav-dropdown-link rounded-md px-4 py-2.5 text-sm text-text-body hover:text-primary">{{ $j->nama }}</a></div>
+                            @endforeach
                         </div>
                     </div>
-                    <a href="{{ url('/artikel') }}" class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10">Artikel</a>
-                    <a href="{{ url('/galeri') }}" class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10">Galeri</a>
-                    <a href="{{ url('/kontak') }}" class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10">Kontak</a>
-                    <a href="{{ url('/pengumuman-kelulusan') }}" class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10">Cek Kelulusan</a>
-                    <a href="{{ url('/ppdb') }}" class="theme-btn-sm ml-4">Daftar PPDB</a>
+
+                    {{-- Kegiatan dropdown --}}
+                    <div class="relative group">
+                        <button class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10 flex items-center gap-1">
+                            Kegiatan
+                            <svg class="h-3 w-3 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div class="nav-dropdown absolute top-full left-0 mt-1 w-56 rounded-lg border border-gray-100 bg-white p-2 shadow-lg">
+                            <div class="nav-dropdown-item"><a href="{{ url('/prestasi') }}" class="nav-dropdown-link rounded-md px-4 py-2.5 text-sm text-text-body hover:text-primary">Prestasi</a></div>
+                            <div class="nav-dropdown-item"><a href="{{ url('/ekstrakurikuler') }}" class="nav-dropdown-link rounded-md px-4 py-2.5 text-sm text-text-body hover:text-primary">Ekstrakurikuler</a></div>
+                            <div class="nav-dropdown-item"><a href="{{ url('/galeri') }}" class="nav-dropdown-link rounded-md px-4 py-2.5 text-sm text-text-body hover:text-primary">Galeri</a></div>
+                        </div>
+                    </div>
+
+                    {{-- PPDB dropdown --}}
+                    <div class="relative group">
+                        <button class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10 flex items-center gap-1">
+                            PPDB
+                            <svg class="h-3 w-3 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div class="nav-dropdown absolute top-full left-0 mt-1 w-56 rounded-lg border border-gray-100 bg-white p-2 shadow-lg">
+                            <div class="nav-dropdown-item"><a href="{{ url('/ppdb') }}" class="nav-dropdown-link rounded-md px-4 py-2.5 text-sm text-text-body hover:text-primary">Info &amp; Jadwal</a></div>
+                            <div class="nav-dropdown-item"><a href="{{ url('/ppdb/daftar') }}" class="nav-dropdown-link rounded-md px-4 py-2.5 text-sm text-text-body hover:text-primary">Form Pendaftaran</a></div>
+                            <div class="nav-dropdown-item"><a href="{{ url('/ppdb/status') }}" class="nav-dropdown-link rounded-md px-4 py-2.5 text-sm text-text-body hover:text-primary">Cek Status</a></div>
+                        </div>
+                    </div>
+
+                    {{-- Info dropdown --}}
+                    <div class="relative group">
+                        <button class="rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10 flex items-center gap-1">
+                            Info
+                            <svg class="h-3 w-3 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div class="nav-dropdown absolute top-full left-0 mt-1 w-56 rounded-lg border border-gray-100 bg-white p-2 shadow-lg">
+                            <div class="nav-dropdown-item"><a href="{{ url('/artikel') }}" class="nav-dropdown-link rounded-md px-4 py-2.5 text-sm text-text-body hover:text-primary">Artikel</a></div>
+                            <div class="nav-dropdown-item"><a href="{{ url('/pengumuman-kelulusan') }}" class="nav-dropdown-link rounded-md px-4 py-2.5 text-sm text-text-body hover:text-primary">Cek Kelulusan</a></div>
+                            <div class="nav-dropdown-item"><a href="{{ url('/kontak') }}" class="nav-dropdown-link rounded-md px-4 py-2.5 text-sm text-text-body hover:text-primary">Kontak</a></div>
+                        </div>
+                    </div>
+
+                    <a href="{{ url('/ppdb/daftar') }}" class="ml-4 inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2 text-sm font-heading font-semibold text-text-heading transition-all duration-500 hover:bg-accent-light hover:shadow-lg active:scale-[0.97]">
+                        Daftar PPDB
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
                 </nav>
 
                 {{-- Mobile hamburger --}}
@@ -109,26 +176,106 @@
             </div>
         </div>
 
-        {{-- Mobile Menu --}}
-        <div id="nav-mobile" class="hidden border-t border-white/10 bg-primary md:hidden">
-            <div class="container-page space-y-1 pb-4 pt-2">
-                <a href="{{ url('/') }}" class="block rounded-md px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Beranda</a>
-                <a href="{{ url('/profil') }}" class="block rounded-md px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Profil</a>
-                <div class="px-4 py-2 text-sm font-medium text-white/70">Jurusan</div>
-                <a href="{{ url('/jurusan/akl') }}" class="block rounded-md px-8 py-2 text-sm text-white/80 hover:bg-white/10">AKL — Akuntansi</a>
-                <a href="{{ url('/jurusan/pemasaran') }}" class="block rounded-md px-8 py-2 text-sm text-white/80 hover:bg-white/10">Pemasaran</a>
-                <a href="{{ url('/jurusan/mplb') }}" class="block rounded-md px-8 py-2 text-sm text-white/80 hover:bg-white/10">MPLB — Manajemen Perkantoran</a>
-                <a href="{{ url('/jurusan/tjkt') }}" class="block rounded-md px-8 py-2 text-sm text-white/80 hover:bg-white/10">TJKT — Teknik Jaringan</a>
-                <div class="pt-2">
-                    <a href="{{ url('/artikel') }}" class="block rounded-md px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Artikel</a>
-                    <a href="{{ url('/galeri') }}" class="block rounded-md px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Galeri</a>
-                    <a href="{{ url('/prestasi') }}" class="block rounded-md px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Prestasi</a>
-                    <a href="{{ url('/ekstrakurikuler') }}" class="block rounded-md px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Ekstrakurikuler</a>
-                    <a href="{{ url('/pengumuman-kelulusan') }}" class="block rounded-md px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Cek Kelulusan</a>
-                    <a href="{{ url('/kontak') }}" class="block rounded-md px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10">Kontak</a>
+        {{-- Mobile Menu Overlay --}}
+        <div id="nav-mobile-overlay" class="nav-mobile-overlay" onclick="closeMobileMenu()"></div>
+
+        {{-- Mobile Menu Slide-in Panel --}}
+        <div id="nav-mobile-panel" class="nav-mobile-panel">
+            <div class="flex items-center justify-between px-6 pt-5 pb-2">
+                <span class="font-heading text-lg font-bold text-white">Menu</span>
+                <button class="nav-mobile-close" onclick="closeMobileMenu()" aria-label="Tutup menu">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="mt-4 space-y-1 px-4">
+                <a href="{{ url('/') }}" class="block rounded-md px-4 py-3 text-sm font-medium text-white/90 transition-colors hover:bg-white/10" onclick="closeMobileMenu()">Beranda</a>
+
+                {{-- Profil mobile --}}
+                <div class="nav-mobile-section">
+                    <div class="nav-mobile-section-header" onclick="toggleMobileSection(this)">
+                        Profil Sekolah
+                        <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                    <div class="hidden space-y-1 pb-2">
+                        <a href="{{ url('/profil') }}" class="block rounded-md px-8 py-2 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white" onclick="closeMobileMenu()">Sekilas Profil</a>
+                        <a href="{{ url('/profil/sejarah') }}" class="block rounded-md px-8 py-2 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white" onclick="closeMobileMenu()">Sejarah &amp; Visi Misi</a>
+                        <a href="{{ url('/profil/struktur-organisasi') }}" class="block rounded-md px-8 py-2 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white" onclick="closeMobileMenu()">Struktur Organisasi</a>
+                        <a href="{{ url('/profil/guru') }}" class="block rounded-md px-8 py-2 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white" onclick="closeMobileMenu()">Guru &amp; Tenaga Pengajar</a>
+                    </div>
                 </div>
-                <div class="pt-4 px-4">
-                    <a href="{{ url('/ppdb') }}" class="theme-btn w-full justify-center text-center">Daftar PPDB</a>
+
+                {{-- Jurusan mobile --}}
+                <div class="nav-mobile-section">
+                    <div class="nav-mobile-section-header" onclick="toggleMobileSection(this)">
+                        Jurusan
+                        <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                    <div class="hidden space-y-1 pb-2">
+                        @foreach($jurusans as $j)
+                        <a href="{{ url('/jurusan/' . $j->slug) }}" class="block rounded-md px-8 py-2 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white" onclick="closeMobileMenu()">{{ $j->nama }}</a>
+                        @endforeach
+                    </div>
+                </div>
+
+                {{-- Kegiatan mobile --}}
+                <div class="nav-mobile-section">
+                    <div class="nav-mobile-section-header" onclick="toggleMobileSection(this)">
+                        Kegiatan
+                        <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                    <div class="hidden space-y-1 pb-2">
+                        <a href="{{ url('/prestasi') }}" class="block rounded-md px-8 py-2 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white" onclick="closeMobileMenu()">Prestasi</a>
+                        <a href="{{ url('/ekstrakurikuler') }}" class="block rounded-md px-8 py-2 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white" onclick="closeMobileMenu()">Ekstrakurikuler</a>
+                        <a href="{{ url('/galeri') }}" class="block rounded-md px-8 py-2 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white" onclick="closeMobileMenu()">Galeri</a>
+                    </div>
+                </div>
+
+                {{-- PPDB mobile --}}
+                <div class="nav-mobile-section">
+                    <div class="nav-mobile-section-header" onclick="toggleMobileSection(this)">
+                        PPDB
+                        <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                    <div class="hidden space-y-1 pb-2">
+                        <a href="{{ url('/ppdb') }}" class="block rounded-md px-8 py-2 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white" onclick="closeMobileMenu()">Info &amp; Jadwal</a>
+                        <a href="{{ url('/ppdb/daftar') }}" class="block rounded-md px-8 py-2 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white" onclick="closeMobileMenu()">Form Pendaftaran</a>
+                        <a href="{{ url('/ppdb/status') }}" class="block rounded-md px-8 py-2 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white" onclick="closeMobileMenu()">Cek Status</a>
+                    </div>
+                </div>
+
+                {{-- Info mobile --}}
+                <div class="nav-mobile-section">
+                    <div class="nav-mobile-section-header" onclick="toggleMobileSection(this)">
+                        Info
+                        <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                    <div class="hidden space-y-1 pb-2">
+                        <a href="{{ url('/artikel') }}" class="block rounded-md px-8 py-2 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white" onclick="closeMobileMenu()">Artikel</a>
+                        <a href="{{ url('/pengumuman-kelulusan') }}" class="block rounded-md px-8 py-2 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white" onclick="closeMobileMenu()">Cek Kelulusan</a>
+                        <a href="{{ url('/kontak') }}" class="block rounded-md px-8 py-2 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white" onclick="closeMobileMenu()">Kontak</a>
+                    </div>
+                </div>
+
+                <div class="pt-4 pb-8 px-4">
+                    <a href="{{ url('/ppdb/daftar') }}" class="flex w-full items-center justify-center gap-2 rounded-md bg-accent px-5 py-3 font-heading font-semibold text-text-heading transition-all duration-500 hover:bg-accent-light hover:shadow-lg" onclick="closeMobileMenu()">
+                        Daftar PPDB
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
@@ -145,7 +292,12 @@
             <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
                 {{-- Logo & Description --}}
                 <div class="space-y-5">
-                    <h3 class="font-heading text-2xl font-semibold text-white">{{ $settings->school_name }}</h3>
+                    <h3 class="font-heading text-2xl font-semibold text-white">
+                        @if($settings->logo_url)
+                            <img src="{{ $settings->logo_url }}" alt="{{ $settings->school_name }}" class="mb-3 h-12 w-auto">
+                        @endif
+                        {{ $settings->school_name }}
+                    </h3>
                     <p class="text-sm leading-relaxed text-white/70">{{ $settings->description }}</p>
                     <div class="flex gap-3">
                         @if($settings->facebook_url)
@@ -184,10 +336,9 @@
                 <div>
                     <h3 class="mb-6 font-heading text-2xl font-semibold text-white">Jurusan</h3>
                     <ul class="space-y-3 text-sm text-white/70">
-                        <li><a href="{{ url('/jurusan/akl') }}" class="transition-colors hover:text-white">AKL — Akuntansi</a></li>
-                        <li><a href="{{ url('/jurusan/pemasaran') }}" class="transition-colors hover:text-white">Pemasaran</a></li>
-                        <li><a href="{{ url('/jurusan/mplb') }}" class="transition-colors hover:text-white">MPLB — Manajemen Perkantoran</a></li>
-                        <li><a href="{{ url('/jurusan/tjkt') }}" class="transition-colors hover:text-white">TJKT — Teknik Jaringan</a></li>
+                        @foreach($jurusans as $j)
+                        <li><a href="{{ url('/jurusan/' . $j->slug) }}" class="transition-colors hover:text-white">{{ $j->nama }}</a></li>
+                        @endforeach
                     </ul>
                 </div>
 
@@ -242,52 +393,85 @@
     <script>
         // Navbar scroll effect
         const navbar = document.getElementById('navbar');
+        let ticking = false;
 
         window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
 
-            if (scrollY > 100) {
-                navbar.classList.remove('navbar-transparent');
-                navbar.classList.add('navbar-scrolled');
-            } else {
-                navbar.classList.remove('navbar-scrolled');
-                navbar.classList.add('navbar-transparent');
-            }
+                    if (scrollY > 100) {
+                        navbar.classList.remove('navbar-transparent');
+                        navbar.classList.add('navbar-scrolled');
+                    } else {
+                        navbar.classList.remove('navbar-scrolled');
+                        navbar.classList.add('navbar-transparent');
+                    }
 
-            // Scroll to top button
-            const scrollTop = document.getElementById('scroll-top');
-            if (scrollY > 400) {
-                scrollTop.classList.remove('opacity-0', 'pointer-events-none');
-                scrollTop.classList.add('opacity-100');
-            } else {
-                scrollTop.classList.remove('opacity-100');
-                scrollTop.classList.add('opacity-0', 'pointer-events-none');
+                    // Scroll to top button
+                    const scrollTop = document.getElementById('scroll-top');
+                    if (scrollY > 400) {
+                        scrollTop.classList.remove('opacity-0', 'pointer-events-none');
+                        scrollTop.classList.add('opacity-100');
+                    } else {
+                        scrollTop.classList.remove('opacity-100');
+                        scrollTop.classList.add('opacity-0', 'pointer-events-none');
+                    }
+
+                    ticking = false;
+                });
+                ticking = true;
             }
         });
 
-        // Mobile menu toggle
+        // Mobile menu slide-in
         const navToggle = document.getElementById('nav-toggle');
-        const navMobile = document.getElementById('nav-mobile');
+        const navOverlay = document.getElementById('nav-mobile-overlay');
+        const navPanel = document.getElementById('nav-mobile-panel');
         const navIconOpen = document.getElementById('nav-icon-open');
         const navIconClose = document.getElementById('nav-icon-close');
 
+        function openMobileMenu() {
+            navOverlay.classList.add('open');
+            navPanel.classList.add('open');
+            navIconOpen.classList.add('hidden');
+            navIconClose.classList.remove('hidden');
+            navToggle.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            navOverlay.classList.remove('open');
+            navPanel.classList.remove('open');
+            navIconOpen.classList.remove('hidden');
+            navIconClose.classList.add('hidden');
+            navToggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
         navToggle.addEventListener('click', () => {
-            const isOpen = !navMobile.classList.contains('hidden');
-            navMobile.classList.toggle('hidden', isOpen);
-            navIconOpen.classList.toggle('hidden', !isOpen);
-            navIconClose.classList.toggle('hidden', isOpen);
-            navToggle.setAttribute('aria-expanded', !isOpen);
+            const isOpen = navPanel.classList.contains('open');
+            if (isOpen) {
+                closeMobileMenu();
+            } else {
+                openMobileMenu();
+            }
         });
 
-        // Close mobile menu on link click
-        navMobile.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMobile.classList.add('hidden');
-                navIconOpen.classList.remove('hidden');
-                navIconClose.classList.add('hidden');
-                navToggle.setAttribute('aria-expanded', 'false');
-            });
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navPanel.classList.contains('open')) {
+                closeMobileMenu();
+            }
         });
+
+        // Mobile section accordion
+        function toggleMobileSection(header) {
+            const content = header.nextElementSibling;
+            const isOpen = !content.classList.contains('hidden');
+            content.classList.toggle('hidden', isOpen);
+            header.classList.toggle('active', !isOpen);
+        }
     </script>
     @endpush
 

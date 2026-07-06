@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DokumenPPDB extends Model
 {
+    protected $table = 'dokumen_ppdbs';
+
     protected $fillable = [
         'pendaftar_id',
         'jenis',

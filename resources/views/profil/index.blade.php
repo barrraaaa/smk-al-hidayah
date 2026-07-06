@@ -3,20 +3,25 @@
 @section('title', 'Profil Sekolah — SMK Alhidayah')
 @section('meta_description', 'Kenali lebih dekat SMK Alhidayah — pelajari sejarah, visi-misi, struktur organisasi, dan tenaga pendidik profesional sekolah kejuruan unggulan di Jakarta.')
 
+@php $settings = \App\Models\SchoolSetting::getSettings(); @endphp
+
 @section('content')
 {{-- ============================================ --}}
 {{-- HERO SECTION --}}
 {{-- ============================================ --}}
 <section class="relative overflow-hidden bg-primary-dark">
+    @if(!empty($settings->hero_image))
+    <img src="{{ Storage::url($settings->hero_image) }}" alt="" class="absolute inset-0 h-full w-full object-cover">
+    @endif
     <div class="absolute inset-0">
-        <div class="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/90 to-primary-dark/95"></div>
+        <div class="absolute inset-0 bg-gradient-to-r {{ !empty($settings->hero_image) ? 'from-primary/65 via-primary/55 to-primary-dark/65' : 'from-primary/95 via-primary/90 to-primary-dark/95' }}"></div>
         <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwIDB2MTAwTTAgNTBoMTAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==')] opacity-40"></div>
     </div>
 
     <div class="absolute -top-20 -right-20 h-80 w-80 rounded-full bg-accent/5 blur-3xl"></div>
     <div class="absolute -bottom-20 -left-20 h-96 w-96 rounded-full bg-white/[0.03] blur-3xl"></div>
 
-    <div class="container-page relative py-36 md:py-44">
+    <div class="container-page relative py-28 md:py-44">
         <div class="mx-auto max-w-4xl text-center">
             <div class="section-title-tag justify-center mb-4">
                 <span class="text-accent">Profil Sekolah</span>
@@ -50,26 +55,21 @@
                     <span class="text-primary">Kepala Sekolah</span>
                 </h2>
                 <div class="mt-6 space-y-4 text-text-body/80 leading-relaxed">
-                    <p>
-                        Assalamu'alaikum Warahmatullahi Wabarakatuh,
-                    </p>
-                    <p>
-                        Puji syukur ke hadirat Allah SWT yang telah melimpahkan rahmat dan hidayah-Nya 
-                        sehingga kita dapat terus berkhidmat di dunia pendidikan. SMK Alhidayah hadir 
-                        sebagai lembaga pendidikan menengah kejuruan yang berkomitmen mencetak generasi 
-                        yang tidak hanya kompeten dalam bidangnya, tetapi juga berakhlak mulia.
-                    </p>
-                    <p>
-                        Dengan 4 jurusan unggulan — AKL, Pemasaran, MPLB, dan TJKT — kami siap 
-                        membekali siswa dengan keterampilan abad 21 yang relevan dengan kebutuhan industri.
-                    </p>
-                    <p>
-                        Wassalamu'alaikum Warahmatullahi Wabarakatuh.
-                    </p>
+                    {!! $settings->sambutan_text ?: '
+                    <p>Assalamu\'alaikum Warahmatullahi Wabarakatuh,</p>
+                    <p>Puji syukur ke hadirat Allah SWT yang telah melimpahkan rahmat dan hidayah-Nya sehingga kita dapat terus berkhidmat di dunia pendidikan. SMK Alhidayah hadir sebagai lembaga pendidikan menengah kejuruan yang berkomitmen mencetak generasi yang tidak hanya kompeten dalam bidangnya, tetapi juga berakhlak mulia.</p>
+                    <p>Dengan 4 jurusan unggulan — AKL, Pemasaran, MPLB, dan TJKT — kami siap membekali siswa dengan keterampilan abad 21 yang relevan dengan kebutuhan industri.</p>
+                    <p>Wassalamu\'alaikum Warahmatullahi Wabarakatuh.</p>
+                    ' !!}
                 </div>
             </div>
 
             <div class="relative">
+                @if($settings->sambutan_image)
+                <div class="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary/10 to-accent/10 p-3">
+                    <img src="{{ Storage::url($settings->sambutan_image) }}" alt="Kepala Sekolah" class="mx-auto h-auto w-full rounded-lg object-cover shadow-lg">
+                </div>
+                @else
                 <div class="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary/10 to-accent/10 p-6">
                     <div class="flex h-96 items-center justify-center">
                         <div class="text-center">
@@ -88,6 +88,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
                 {{-- Decorative --}}
                 <div class="absolute -bottom-3 -right-3 h-32 w-32 rounded-full bg-accent/10 blur-2xl"></div>
             </div>
@@ -103,6 +104,7 @@
         <div class="section-title">
             <div class="section-title-tag justify-center">
                 <span class="h-2 w-2 rounded-full bg-accent"></span>
+                @include('partials.ornaments', ['type' => 'heading-accent', 'color' => 'accent'])
                 Sekilas Info
             </div>
             <h2 class="section-title-heading">SMK Alhidayah dalam Angka</h2>
@@ -141,6 +143,7 @@
         <div class="section-title">
             <div class="section-title-tag justify-center">
                 <span class="h-2 w-2 rounded-full bg-accent"></span>
+                @include('partials.ornaments', ['type' => 'heading-accent', 'color' => 'accent'])
                 Jelajahi Profil
             </div>
             <h2 class="section-title-heading">Informasi Lengkap<br>SMK Alhidayah</h2>

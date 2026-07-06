@@ -3,11 +3,16 @@
 @section('title', $artikel->judul . ' — SMK Alhidayah')
 @section('meta_description', Str::limit(strip_tags($artikel->konten), 160))
 
+@php $settings = \App\Models\SchoolSetting::getSettings(); @endphp
+
 @section('content')
 {{-- Breadcrumb --}}
 <section class="bg-primary-dark relative overflow-hidden pt-32">
-    <div class="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/90 to-primary-dark/95"></div>
-    <div class="container-page relative py-16">
+    @if(!empty($settings->hero_image))
+    <img src="{{ Storage::url($settings->hero_image) }}" alt="" class="absolute inset-0 h-full w-full object-cover">
+    @endif
+    <div class="absolute inset-0 bg-gradient-to-r {{ !empty($settings->hero_image) ? 'from-primary/65 via-primary/55 to-primary-dark/65' : 'from-primary/95 via-primary/90 to-primary-dark/95' }}"></div>
+    <div class="container-page relative py-12 md:py-16">
         <nav class="flex items-center gap-2 text-sm text-white/60 mb-6">
             <a href="{{ url('/') }}" class="hover:text-white transition-colors">Beranda</a>
             <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">

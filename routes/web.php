@@ -58,6 +58,26 @@ Route::get('/robots.txt', function () {
 Route::get('/pengumuman-kelulusan', [\App\Http\Controllers\KelulusanController::class, 'index'])->name('kelulusan');
 Route::post('/pengumuman-kelulusan', [\App\Http\Controllers\KelulusanController::class, 'cari'])->name('kelulusan.cari');
 
+// Kelulusan CSV Template
+Route::get('/admin/kelulusan/template', function () {
+    $headers = [
+        'Content-Type' => 'text/csv',
+        'Content-Disposition' => 'attachment; filename="template-import-kelulusan.csv"',
+    ];
+
+    $callback = function () {
+        $handle = fopen('php://output', 'w');
+        fputcsv($handle, ['nomor_ujian', 'nama', 'hasil', 'jurusan']);
+        fputcsv($handle, ['2026-00001', 'Ahmad Fauzi', 'lulus', 'Akuntansi dan Keuangan Lembaga']);
+        fputcsv($handle, ['2026-00002', 'Siti Nurhaliza', 'lulus', 'Pemasaran']);
+        fputcsv($handle, ['2026-00003', 'Budi Santoso', 'tidak_lulus', 'Manajemen Perkantoran dan Layanan Bisnis']);
+        fputcsv($handle, ['2026-00004', 'Dewi Sartika', 'lulus', 'Teknik Jaringan Komputer dan Telekomunikasi']);
+        fclose($handle);
+    };
+
+    return response()->stream($callback, 200, $headers);
+})->name('kelulusan.template');
+
 // Admin Export Routes
 Route::middleware(['auth'])->prefix('admin/export')->group(function () {
     Route::get('/ppdb/csv', [\App\Http\Controllers\Admin\ExportPendaftarController::class, 'csv'])->name('admin.export.ppdb.csv');

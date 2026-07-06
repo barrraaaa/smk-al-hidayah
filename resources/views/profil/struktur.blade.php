@@ -41,6 +41,7 @@
         <div class="section-title">
             <div class="section-title-tag justify-center">
                 <span class="h-2 w-2 rounded-full bg-accent"></span>
+                @include('partials.ornaments', ['type' => 'heading-accent', 'color' => 'accent'])
                 Bagan Organisasi
             </div>
             <h2 class="section-title-heading">Struktur Kepengurusan<br>SMK Alhidayah</h2>
@@ -97,6 +98,7 @@
         <div class="section-title mb-8">
             <div class="section-title-tag justify-center">
                 <span class="h-2 w-2 rounded-full bg-accent"></span>
+                @include('partials.ornaments', ['type' => 'heading-accent', 'color' => 'accent'])
                 Unit Jurusan
             </div>
             <h3 class="font-heading text-2xl font-bold text-text-heading">Kepala Program Keahlian</h3>
@@ -128,6 +130,7 @@
         <div class="section-title mb-8">
             <div class="section-title-tag justify-center">
                 <span class="h-2 w-2 rounded-full bg-accent"></span>
+                @include('partials.ornaments', ['type' => 'heading-accent', 'color' => 'accent'])
                 Pelaksana
             </div>
             <h3 class="font-heading text-2xl font-bold text-text-heading">Dewan Guru & Tenaga Pendidik</h3>
@@ -155,6 +158,7 @@
 <section class="relative z-10 pb-20">
     <div class="container-page">
         <div class="relative overflow-hidden rounded-md cta-gradient px-8 py-12 md:px-16 md:py-14">
+            @include('partials.ornaments', ['type' => 'cta', 'color' => 'white'])
             <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjAgMHYyME0wIDIwaDIwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==')] opacity-50"></div>
             <div class="relative flex flex-col items-center justify-between gap-6 md:flex-row">
                 <div>

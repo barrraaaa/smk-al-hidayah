@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Artikel;
 use App\Models\Guru;
 use App\Models\Jurusan;
+use App\Models\Partner;
 use App\Models\Prestasi;
 
 class HomeController extends Controller
@@ -25,7 +26,8 @@ class HomeController extends Controller
             ->take(3)
             ->get();
         $gurus = Guru::with('jurusan')->take(4)->get();
+        $partners = Partner::aktif()->get();
 
-        return view('beranda', compact('jurusans', 'artikel', 'prestasi', 'gurus'));
+        return view('beranda', compact('jurusans', 'artikel', 'prestasi', 'gurus', 'partners'));
     }
 }

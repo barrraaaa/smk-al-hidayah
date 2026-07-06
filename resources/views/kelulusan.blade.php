@@ -3,13 +3,15 @@
 @section('title', 'Pengumuman Kelulusan — SMK Alhidayah')
 
 @section('content')
-<section class="min-h-screen pt-32 pb-20">
+<section class="min-h-screen pt-28 md:pt-32 pb-16 md:pb-20 bg-primary-dark">
     <div class="container-page">
         {{-- Header --}}
         <div class="section-title">
-            <span class="badge-accent mb-4">Kelulusan</span>
-            <h2>Pengumuman Kelulusan</h2>
-            <p>Masukkan nomor ujian untuk melihat hasil kelulusan</p>
+            <span class="badge-accent mb-4 text-white">Kelulusan</span>
+            <h1 class="font-heading text-5xl font-bold leading-tight md:text-6xl lg:text-7xl lg:leading-[1.1]">
+                <span class="text-accent">Pengumuman Kelulusan</span>
+            </h1>
+            <p class="text-white">Masukkan nomor ujian untuk melihat hasil kelulusan</p>
         </div>
 
         {{-- Search Form --}}

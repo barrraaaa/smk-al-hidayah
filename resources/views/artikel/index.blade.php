@@ -2,11 +2,16 @@
 
 @section('title', 'Artikel & Berita — SMK Alhidayah')
 
+@php $settings = \App\Models\SchoolSetting::getSettings(); @endphp
+
 @section('content')
 {{-- Hero --}}
 <section class="bg-primary-dark relative overflow-hidden pt-32">
-    <div class="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/90 to-primary-dark/95"></div>
-    <div class="container-page relative py-20 text-center">
+    @if(!empty($settings->hero_image))
+    <img src="{{ Storage::url($settings->hero_image) }}" alt="" class="absolute inset-0 h-full w-full object-cover">
+    @endif
+    <div class="absolute inset-0 bg-gradient-to-r {{ !empty($settings->hero_image) ? 'from-primary/65 via-primary/55 to-primary-dark/65' : 'from-primary/95 via-primary/90 to-primary-dark/95' }}"></div>
+    <div class="container-page relative py-16 md:py-20 text-center">
         <div class="section-title-tag justify-center mb-4">
             <span class="text-accent">Artikel</span>
         </div>

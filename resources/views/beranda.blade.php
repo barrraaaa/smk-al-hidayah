@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@php $settings = \App\Models\SchoolSetting::getSettings(); @endphp
+
 @section('title', 'SMK Alhidayah — Sekolah Kejuruan Islam Modern')
 @section('meta_description', 'SMK Alhidayah Jakarta — Sekolah Menengah Kejuruan Islam modern dengan 4 jurusan unggulan: AKL, Pemasaran, MPLB, dan TJKT. Daftar PPDB sekarang!')
 
@@ -9,23 +11,26 @@
 {{-- HERO SECTION --}}
 {{-- ============================================ --}}
 <section class="relative overflow-hidden bg-primary-dark">
+    @if($settings->hero_image)
+    <img src="{{ Storage::url($settings->hero_image) }}" alt="" class="absolute inset-0 h-full w-full object-cover">
+    @endif
     <div class="absolute inset-0">
-        <div class="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/90 to-primary-dark/95"></div>
+        <div class="absolute inset-0 bg-gradient-to-r {{ $settings->hero_image ? 'from-primary/65 via-primary/55 to-primary-dark/65' : 'from-primary/95 via-primary/90 to-primary-dark/95' }}"></div>
         <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwIDB2MTAwTTAgNTBoMTAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==')] opacity-40"></div>
     </div>
 
     <div class="absolute -top-20 -right-20 h-80 w-80 rounded-full bg-accent/5 blur-3xl"></div>
     <div class="absolute -bottom-20 -left-20 h-96 w-96 rounded-full bg-white/[0.03] blur-3xl"></div>
 
-    <div class="container-page relative py-44 md:py-52">
+    <div class="container-page relative py-36 md:py-52">
         <div class="mx-auto max-w-4xl text-center">
             <div class="section-title-tag justify-center mb-4">
-                <span class="text-accent">SMK Alhidayah</span>
+                <span class="text-accent">SMK Al Hidayah 1 Jakarta</span>
             </div>
 
             <h1 class="font-heading text-5xl font-bold leading-tight text-white md:text-6xl lg:text-7xl lg:leading-[1.1]">
-                Cetak Masa Depanmu di
-                <span class="text-accent">SMK Alhidayah</span>
+                Cetak Masa Depanmu di<br>
+                <span class="text-accent">SMK Al Hidayah 1 Jakarta</span>
             </h1>
 
             <p class="mx-auto mt-6 max-w-2xl text-lg text-white/75 md:text-xl">
@@ -34,7 +39,7 @@
             </p>
 
             <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <a href="{{ url('/ppdb') }}" class="theme-btn min-w-[180px] px-8 py-4 text-base">
+                <a href="{{ url('/ppdb') }}" class="theme-btn min-w-[180px] px-8 py-4 text-base bg-accent hover:bg-accent-dark">
                     Daftar PPDB
                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -80,7 +85,7 @@
 </section>
 
 {{-- ============================================ --}}
-{{-- WELCOME SECTION --}}
+{{-- WELCOME SECTION (dynamic from admin) --}}
 {{-- ============================================ --}}
 <section class="section-padding">
     <div class="container-page">
@@ -88,41 +93,56 @@
             <div>
                 <div class="section-title-tag mb-4">
                     <span class="h-2 w-2 rounded-full bg-accent"></span>
+                    @include('partials.ornaments', ['type' => 'heading-accent', 'color' => 'accent'])
                     Selamat Datang
                 </div>
-                <h2 class="font-heading text-3xl font-bold text-text-heading md:text-4xl">Online Islamic School<br>At Home</h2>
-                <p class="mt-5 leading-relaxed text-text-body/80">
-                    Kami menyambut siswa-siswi untuk bergabung dengan SMK Alhidayah, 
-                    sekolah kejuruan Islam modern yang menawarkan pendidikan berkualitas 
-                    dengan kurikulum berbasis industri dan pembentukan karakter Islami.
-                </p>
+                <h2 class="font-heading text-3xl font-bold text-text-heading md:text-4xl">
+                    {!! $settings->welcome_heading ?: 'Mengenal Lebih Dekat<br>SMK Al Hidayah 1 Jakarta' !!}
+                </h2>
+                <div class="mt-5 leading-relaxed text-text-body/80">
+                    {!! $settings->welcome_text ?: '<p>SMK Al Hidayah 1 Jakarta adalah sebuah sekolah yang berada di bawah naungan Yayasan Islam YasMar Al Hidayah yang berlokasi di Jalan Bhakti No.25, RT 3 RW 7, Kelurahan Cilandak Timur, Kecamatan Pasar Minggu, Jakarta Selatan, 12560.</p>' !!}
+                </div>
+
+                @if($settings->welcome_advantages && count($settings->welcome_advantages) > 0)
                 <div class="mt-8 space-y-5">
                     <div class="flex items-start gap-4">
-                        <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                            <svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        <div>
+                            <ol class="space-y-5">
+                                @foreach($settings->welcome_advantages as $adv)
+                                <li class="flex items-start gap-4">
+                                    <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                                        <svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-heading text-lg font-semibold text-text-heading">{{ $adv['title'] }}</h4>
+                                        <p class="mt-1 text-sm text-text-body/70">{{ $adv['description'] }}</p>
+                                    </div>
+                                </li>
+                                @endforeach
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                @endif
+            </div>
+
+            <div class="relative">
+                @if($settings->welcome_image)
+                <img src="{{ Storage::url($settings->welcome_image) }}" alt="SMK Alhidayah" class="mx-auto w-full rounded-xl shadow-lg ring-1 ring-gray-100">
+                @else
+                <div class="flex aspect-[4/3] w-full items-center justify-center rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 shadow-lg ring-1 ring-gray-100">
+                    <div class="text-center">
+                        <div class="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-primary/20">
+                            <svg class="h-12 w-12 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                             </svg>
                         </div>
-                        <div>
-                            <h4 class="font-heading text-lg font-semibold text-text-heading">Belajar Online di Rumah</h4>
-                            <p class="mt-1 text-sm text-text-body/70">Fleksibel, aman, dan nyaman dengan sistem pembelajaran hybrid</p>
-                        </div>
+                        <p class="text-sm text-text-body/60">Gedung SMK Alhidayah</p>
                     </div>
                 </div>
-            </div>
-            <div class="relative">
-                <div class="relative overflow-hidden rounded-md bg-gradient-to-br from-primary/20 to-accent/20 p-8">
-                    <div class="flex h-80 items-center justify-center">
-                        <div class="text-center">
-                            <div class="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-primary/20">
-                                <svg class="h-12 w-12 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                                </svg>
-                            </div>
-                            <p class="text-sm text-text-body/60">Gedung SMK Alhidayah</p>
-                        </div>
-                    </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -136,19 +156,20 @@
         <div class="section-title">
             <div class="section-title-tag justify-center">
                 <span class="h-2 w-2 rounded-full bg-accent"></span>
+                @include('partials.ornaments', ['type' => 'heading-accent', 'color' => 'accent'])
                 Program Keahlian
             </div>
             <h2 class="section-title-heading">Pilih Jurusan Favoritmu</h2>
             <p class="section-title-text">Empat jurusan unggulan dengan kurikulum berbasis industri dan tenaga pengajar profesional</p>
         </div>
 
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div class="grid min-w-0 gap-6 md:grid-cols-2 lg:grid-cols-4">
             @forelse($jurusans as $j)
-            <a href="{{ url('/jurusan/' . $j->slug) }}" class="group block">
+            <a href="{{ url('/jurusan/' . $j->slug) }}" class="group block min-w-0">
                 <div class="card-hover overflow-hidden">
                     <div class="relative overflow-hidden bg-primary">
                         <div class="flex h-44 items-center justify-center transition-all duration-500 group-hover:scale-105 group-hover:opacity-70">
-                            <span class="font-heading text-5xl font-bold text-white/20">{{ $j->nama }}</span>
+                            <span class="font-heading text-5xl font-bold text-white/20 truncate px-4 max-w-full">{{ $j->nama }}</span>
                         </div>
                         <div class="absolute left-5 -bottom-7 flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-md">
                             <span class="text-xl font-bold text-primary">{{ substr($j->nama, 0, 1) }}</span>
@@ -160,20 +181,20 @@
                         <p class="mt-2 text-sm text-text-body/70 line-clamp-2">{{ $j->deskripsi }}</p>
 
                         @if($j->kepalaJurusan)
-                        <div class="mt-4 flex items-center gap-3 border-b border-border pb-4">
-                            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+                        <div class="mt-4 flex items-center gap-3 border-b border-border pb-4 min-w-0">
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
                                 {{ substr($j->kepalaJurusan->nama, 0, 1) }}
                             </div>
-                            <div>
-                                <div class="text-sm font-semibold text-text-heading">{{ $j->kepalaJurusan->nama }}</div>
+                            <div class="min-w-0">
+                                <div class="text-sm font-semibold text-text-heading truncate">{{ $j->kepalaJurusan->nama }}</div>
                                 <div class="text-xs text-text-body/60">Kepala Jurusan</div>
                             </div>
                         </div>
                         @endif
 
-                        <div class="mt-4 flex items-center justify-between">
-                            <span class="text-sm font-semibold text-primary">SPP: Gratis</span>
-                            <span class="theme-btn-sm text-xs">
+                        <div class="mt-4 flex items-center justify-between gap-2">
+                            <span class="text-sm font-semibold text-primary shrink-0">SPP: Gratis</span>
+                            <span class="theme-btn-sm text-xs shrink-0">
                                 Lihat Detail
                                 <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -198,6 +219,7 @@
 <section class="relative z-10">
     <div class="container-page">
         <div class="relative overflow-hidden rounded-md cta-gradient px-8 py-12 md:px-16 md:py-14">
+            @include('partials.ornaments', ['type' => 'cta', 'color' => 'white'])
             <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjAgMHYyME0wIDIwaDIwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==')] opacity-50"></div>
             <div class="relative flex flex-col items-center justify-between gap-6 md:flex-row">
                 <div>
@@ -221,6 +243,33 @@
 </section>
 
 {{-- ============================================ --}}
+{{-- PARTNER SECTION (dynamic from DB) --}}
+{{-- ============================================ --}}
+@if($partners->count() > 0)
+<section class="section-padding bg-surface-alt">
+    <div class="container-page">
+        <div class="section-title">
+            <div class="section-title-tag justify-center">
+                <span class="h-2 w-2 rounded-full bg-accent"></span>
+                @include('partials.ornaments', ['type' => 'heading-accent', 'color' => 'accent'])
+                Mitra & Rekanan
+            </div>
+            <h2 class="section-title-heading">Yang Telah Mempercayai Kami</h2>
+            <p class="section-title-text">Bermitra dengan berbagai institusi, perusahaan, dan organisasi terkemuka</p>
+        </div>
+
+        <div class="partner-grid mx-auto grid max-w-5xl grid-cols-2 items-center justify-items-center gap-8 sm:grid-cols-3 md:grid-cols-4 lg:gap-12">
+            @foreach($partners as $p)
+            <a href="{{ $p->url ?: '#' }}" target="{{ $p->url ? '_blank' : '_self' }}" rel="{{ $p->url ? 'noopener noreferrer' : '' }}" class="partner-logo group flex h-24 w-full max-w-[160px] items-center justify-center transition-all duration-500 hover:scale-105" title="{{ $p->nama }}">
+                <img src="{{ Storage::url($p->logo) }}" alt="{{ $p->nama }}" class="partner-logo-img max-h-full max-w-full object-contain transition-all duration-500" loading="lazy">
+            </a>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
+
+{{-- ============================================ --}}
 {{-- PRESTASI SECTION (dynamic from DB) --}}
 {{-- ============================================ --}}
 @if($prestasi->count() > 0)
@@ -229,12 +278,13 @@
         <div class="section-title">
             <div class="section-title-tag justify-center">
                 <span class="h-2 w-2 rounded-full bg-accent"></span>
+                @include('partials.ornaments', ['type' => 'heading-accent', 'color' => 'accent'])
                 Prestasi Terbaru
             </div>
             <h2 class="section-title-heading">Prestasi Siswa<br>SMK Alhidayah</h2>
         </div>
 
-        <div class="grid gap-6 md:grid-cols-3">
+        <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
             @foreach($prestasi as $p)
             <div class="card-hover group overflow-hidden text-center">
                 <div class="relative mx-auto mb-4 h-32 w-32 overflow-hidden rounded-full bg-gradient-to-br from-primary to-primary-light">
@@ -275,13 +325,14 @@
         <div class="section-title">
             <div class="section-title-tag justify-center">
                 <span class="h-2 w-2 rounded-full bg-accent"></span>
+                @include('partials.ornaments', ['type' => 'heading-accent', 'color' => 'accent'])
                 Tenaga Pengajar
             </div>
             <h2 class="section-title-heading">Guru Profesional Kami</h2>
             <p class="section-title-text">Tenaga pendidik kompeten siap membimbing siswa</p>
         </div>
 
-        <div class="grid gap-6 md:grid-cols-4">
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             @forelse($gurus as $g)
             <div class="group card-hover overflow-hidden text-center">
                 <div class="relative mx-auto mb-4 h-32 w-32 overflow-hidden rounded-full bg-gradient-to-br from-primary to-primary-light">
@@ -323,6 +374,7 @@
         <div class="section-title">
             <div class="section-title-tag justify-center">
                 <span class="h-2 w-2 rounded-full bg-accent"></span>
+                @include('partials.ornaments', ['type' => 'heading-accent', 'color' => 'accent'])
                 Berita Terbaru
             </div>
             <h2 class="section-title-heading">Artikel & Informasi<br>Dari Blog Kami</h2>
@@ -330,40 +382,59 @@
 
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             @foreach($artikel as $a)
-            <article class="group overflow-hidden rounded-lg bg-white shadow-sm transition-all duration-300 hover:shadow-md">
-                <div class="relative overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20">
+            <article class="group flex flex-col overflow-hidden rounded-xl bg-white shadow-sm transition-all duration-300 hover:shadow-md">
+                {{-- Thumbnail --}}
+                <a href="{{ url('/artikel/' . $a->slug) }}" class="relative block overflow-hidden">
                     @if($a->thumbnail)
-                    <img src="{{ asset('storage/' . $a->thumbnail) }}" alt="{{ $a->judul }}" class="h-48 w-full object-cover transition-all duration-500 group-hover:scale-105">
+                    <img src="{{ asset('storage/' . $a->thumbnail) }}" alt="{{ $a->judul }}" class="aspect-[16/10] w-full object-cover transition-all duration-500 group-hover:scale-105">
                     @else
-                    <div class="flex h-48 items-center justify-center transition-all duration-500 group-hover:scale-105">
+                    <div class="flex aspect-[16/10] w-full items-center justify-center bg-gradient-to-br from-primary/20 to-accent/20 transition-all duration-500 group-hover:scale-105">
                         <svg class="h-16 w-16 text-primary/30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                         </svg>
                     </div>
                     @endif
-                </div>
+                </a>
 
-                <div class="p-5">
-                    <ul class="mb-2 flex gap-4 text-xs text-text-body/60">
+                {{-- Content --}}
+                <div class="flex flex-1 flex-col px-5 pb-5 pt-4">
+                    {{-- Kategori & Tanggal --}}
+                    <div class="mb-3 flex items-center gap-3">
                         @if($a->kategori)
-                        <li class="flex items-center gap-1">
-                            <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-                            </svg>
+                        <span class="inline-block rounded bg-accent px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-text-heading">
                             {{ $a->kategori->nama }}
-                        </li>
+                        </span>
                         @endif
-                        <li class="flex items-center gap-1">
-                            <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
+                        <span class="text-[11px] text-text-body/60">
                             {{ $a->published_at?->format('d M Y') ?? $a->created_at->format('d M Y') }}
-                        </li>
-                    </ul>
+                        </span>
+                    </div>
 
-                    <h3 class="font-heading font-semibold text-text-heading transition-colors group-hover:text-primary line-clamp-2">
+                    {{-- Judul --}}
+                    <h3 class="mb-4 font-heading text-base font-bold leading-snug text-text-heading transition-colors group-hover:text-primary line-clamp-2">
                         <a href="{{ url('/artikel/' . $a->slug) }}">{{ $a->judul }}</a>
                     </h3>
+
+                    {{-- Contributor & Read More --}}
+                    <div class="mt-auto flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div class="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary/10 text-xs font-bold text-primary">
+                                @if($a->penulis_avatar)
+                                <img src="{{ asset('storage/' . $a->penulis_avatar) }}" alt="{{ $a->penulis ?? 'Penulis' }}" class="h-full w-full object-cover">
+                                @else
+                                {{ substr($a->penulis ?? 'Admin', 0, 1) }}
+                                @endif
+                            </div>
+                            <span class="text-sm font-medium text-text-body">{{ $a->penulis ?? 'Admin' }}</span>
+                        </div>
+
+                        <a href="{{ url('/artikel/' . $a->slug) }}" class="inline-flex items-center rounded-lg bg-black px-4 py-2 text-xs font-semibold text-white transition-all duration-300 hover:bg-gray-800">
+                            Baca
+                            <svg class="ml-1.5 h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </article>
             @endforeach
@@ -390,6 +461,7 @@
             <div>
                 <div class="section-title-tag mb-4">
                     <span class="h-2 w-2 rounded-full bg-accent"></span>
+                    @include('partials.ornaments', ['type' => 'heading-accent', 'color' => 'accent'])
                     Kontak
                 </div>
                 <h2 class="mb-4 font-heading text-3xl font-bold text-text-heading">Hubungi Kami</h2>
@@ -406,7 +478,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                             </svg>
                         </div>
-                        <span class="text-sm text-text-body">Jl. Raya Contoh No. 123, Jakarta Selatan</span>
+                        <span class="text-sm text-text-body">{{ $settings->address ?: 'Jl. Raya Contoh No. 123, Jakarta Selatan' }}</span>
                     </div>
                     <div class="flex items-center gap-3">
                         <div class="flex h-12 w-12 items-center justify-center rounded-md bg-accent text-text-heading">
@@ -414,7 +486,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                             </svg>
                         </div>
-                        <span class="text-sm text-text-body">(021) 1234-5678</span>
+                        <span class="text-sm text-text-body">{{ $settings->phone ?: '(021) 1234-5678' }}</span>
                     </div>
                     <div class="flex items-center gap-3">
                         <div class="flex h-12 w-12 items-center justify-center rounded-md bg-primary text-white">
@@ -422,7 +494,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                             </svg>
                         </div>
-                        <a href="mailto:info@smkalhidayah.sch.id" class="text-sm text-primary hover:underline">info@smkalhidayah.sch.id</a>
+                        <a href="mailto:{{ $settings->email }}" class="text-sm text-primary hover:underline">{{ $settings->email ?: 'info@smkalhidayah.sch.id' }}</a>
                     </div>
                 </div>
             </div>

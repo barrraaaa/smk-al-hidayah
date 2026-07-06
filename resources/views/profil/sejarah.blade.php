@@ -3,20 +3,25 @@
 @section('title', 'Sejarah & Visi Misi — SMK Alhidayah')
 @section('meta_description', 'Pelajari perjalanan SMK Alhidayah sejak 2010, visi menjadi lembaga pendidikan mencetak SDM berakhlakul karimah, dan misi untuk mencetak generasi unggul.')
 
+@php $settings = \App\Models\SchoolSetting::getSettings(); @endphp
+
 @section('content')
 {{-- ============================================ --}}
 {{-- HERO SECTION --}}
 {{-- ============================================ --}}
 <section class="relative overflow-hidden bg-primary-dark">
+    @if(!empty($settings->hero_image))
+    <img src="{{ Storage::url($settings->hero_image) }}" alt="" class="absolute inset-0 h-full w-full object-cover">
+    @endif
     <div class="absolute inset-0">
-        <div class="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/90 to-primary-dark/95"></div>
+        <div class="absolute inset-0 bg-gradient-to-r {{ !empty($settings->hero_image) ? 'from-primary/65 via-primary/55 to-primary-dark/65' : 'from-primary/95 via-primary/90 to-primary-dark/95' }}"></div>
         <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwIDB2MTAwTTAgNTBoMTAwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==')] opacity-40"></div>
     </div>
 
     <div class="absolute -top-20 -right-20 h-80 w-80 rounded-full bg-accent/5 blur-3xl"></div>
     <div class="absolute -bottom-20 -left-20 h-96 w-96 rounded-full bg-white/[0.03] blur-3xl"></div>
 
-    <div class="container-page relative py-36 md:py-44">
+    <div class="container-page relative py-28 md:py-44">
         <div class="mx-auto max-w-4xl text-center">
             <div class="section-title-tag justify-center mb-4">
                 <span class="text-accent">Profil</span>
@@ -43,6 +48,7 @@
             <div>
                 <div class="section-title-tag mb-4">
                     <span class="h-2 w-2 rounded-full bg-accent"></span>
+                    @include('partials.ornaments', ['type' => 'heading-accent', 'color' => 'accent'])
                     Perjalanan Kami
                 </div>
                 <h2 class="font-heading text-3xl font-bold text-text-heading md:text-4xl">
@@ -76,8 +82,23 @@
                 </div>
             </div>
 
-            {{-- Timeline visual --}}
+            {{-- Timeline & Foto --}}
             <div class="space-y-6">
+                @if($settings->sejarah_image1 || $settings->sejarah_image2)
+                <div class="grid gap-4">
+                    @if($settings->sejarah_image1)
+                    <div class="overflow-hidden rounded-lg shadow-md">
+                        <img src="{{ Storage::url($settings->sejarah_image1) }}" alt="Dokumentasi Sejarah SMK Alhidayah" class="w-full object-cover">
+                    </div>
+                    @endif
+                    @if($settings->sejarah_image2)
+                    <div class="overflow-hidden rounded-lg shadow-md">
+                        <img src="{{ Storage::url($settings->sejarah_image2) }}" alt="Dokumentasi Sejarah SMK Alhidayah" class="w-full object-cover">
+                    </div>
+                    @endif
+                </div>
+                @endif
+
                 @php
                     $timeline = [
                         ['year' => '2010', 'title' => 'Berdiri', 'desc' => 'Didirikan dengan 2 jurusan, 45 siswa, dan 12 guru', 'color' => 'bg-primary'],
@@ -89,19 +110,17 @@
                     ];
                 @endphp
                 @foreach($timeline as $t)
-                <div class="group relative flex items-start gap-6">
-                    {{-- Line connector --}}
+                <div class="group relative flex items-start gap-4 sm:gap-6">
                     <div class="flex flex-col items-center">
-                        <div class="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full {{ $t['color'] }} text-sm font-bold text-white shadow-md transition-all duration-300 group-hover:scale-110">
+                        <div class="relative z-10 flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full {{ $t['color'] }} text-xs sm:text-sm font-bold text-white shadow-md transition-all duration-300 group-hover:scale-110">
                             {{ $t['year'] }}
                         </div>
                         @if(!$loop->last)
                         <div class="h-full w-0.5 bg-gradient-to-b from-primary/30 to-accent/30"></div>
                         @endif
                     </div>
-                    {{-- Content --}}
                     <div class="pb-6 pt-1">
-                        <h3 class="font-heading text-lg font-bold text-text-heading group-hover:text-primary transition-colors">{{ $t['title'] }}</h3>
+                        <h3 class="font-heading text-base sm:text-lg font-bold text-text-heading group-hover:text-primary transition-colors">{{ $t['title'] }}</h3>
                         <p class="mt-1 text-sm text-text-body/60">{{ $t['desc'] }}</p>
                     </div>
                 </div>
@@ -119,6 +138,7 @@
         <div class="section-title">
             <div class="section-title-tag justify-center">
                 <span class="h-2 w-2 rounded-full bg-accent"></span>
+                @include('partials.ornaments', ['type' => 'heading-accent', 'color' => 'accent'])
                 Visi & Misi
             </div>
             <h2 class="section-title-heading">Landasan & Arah<br>Pendidikan Kami</h2>
@@ -194,6 +214,7 @@
 <section class="relative z-10 pb-20">
     <div class="container-page">
         <div class="relative overflow-hidden rounded-md cta-gradient px-8 py-12 md:px-16 md:py-14">
+            @include('partials.ornaments', ['type' => 'cta', 'color' => 'white'])
             <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjAgMHYyME0wIDIwaDIwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==')] opacity-50"></div>
             <div class="relative flex flex-col items-center justify-between gap-6 md:flex-row">
                 <div>

@@ -16,10 +16,10 @@
         ['loc' => url('/pengumuman-kelulusan'), 'priority' => '0.6', 'changefreq' => 'monthly'],
     ];
 
-    // Add jurusan pages
-    $jurusanSlugs = ['akl', 'pemasaran', 'mplb', 'tjkt'];
-    foreach ($jurusanSlugs as $slug) {
-        $pages[] = ['loc' => url('/jurusan/' . $slug), 'priority' => '0.8', 'changefreq' => 'monthly'];
+    // Add jurusan pages (dynamic from DB)
+    $jurusans = \App\Models\Jurusan::where('aktif', true)->get();
+    foreach ($jurusans as $j) {
+        $pages[] = ['loc' => url('/jurusan/' . $j->slug), 'priority' => '0.8', 'changefreq' => 'monthly'];
     }
 @endphp
 <?xml version="1.0" encoding="UTF-8"?>

@@ -25,6 +25,7 @@ class GuruForm
                 FileUpload::make('foto')
                     ->image()
                     ->imageEditor()
+                    ->disk('public')
                     ->directory('guru')
                     ->columnSpanFull(),
                 Textarea::make('bio')
